@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engrama — Leave a mark on your brain</title>
+  <meta name="description" content="Engrama is a minimalist iOS cognitive training app. Mental math, word challenges, and trivia — all under the clock." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cyan: #00BCD4;
+      --purple: #9C27B0;
+      --orange: #FF9800;
+      --bg: #f9f9f7;
+      --dark: #0d0d0d;
+      --mid: #444;
+      --light: #888;
+      --card: #ffffff;
+      --radius: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(249,249,247,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--mid);
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--dark); }
+
+    .nav-cta {
+      background: var(--dark);
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-weight: 500;
+    }
+
+    .nav-cta:hover { background: var(--purple) !important; color: #fff !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(0,188,212,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(156,39,176,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,188,212,0.1);
+      border: 1px solid rgba(0,188,212,0.2);
+      color: var(--cyan);
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-badge span { font-size: 16px; }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    h1 .accent-cyan { color: var(--cyan); }
+    h1 .accent-purple { color: var(--purple); }
+    h1 .accent-orange { color: var(--orange); }
+
+    .hero-sub {
+      font-size: clamp(17px, 2.5vw, 21px);
+      color: var(--mid);
+      max-width: 560px;
+      line-height: 1.6;
+      margin-bottom: 48px;
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--dark);
+      color: #fff;
+      text-decoration: none;
+      padding: 16px 32px;
+      border-radius: 100px;
+      font-size: 16px;
+      font-weight: 500;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); background: #222; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--mid);
+      text-decoration: none;
+      padding: 16px 24px;
+      border-radius: 100px;
+      font-size: 16px;
+      font-weight: 500;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--dark); color: var(--dark); }
+
+    /* SCREENSHOTS CAROUSEL */
+    .screenshots {
+      margin-top: 80px;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .phones-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-end;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .phone-mockup {
+      width: 200px;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .phone-mockup:hover { transform: translateY(-8px); }
+    .phone-mockup.featured { width: 230px; transform: translateY(-20px); }
+    .phone-mockup.featured:hover { transform: translateY(-28px); }
+    .phone-mockup img { width: 100%; display: block; }
+
+    /* TAGLINE STRIP */
+    .tagline-strip {
+      background: var(--dark);
+      color: #fff;
+      padding: 24px 48px;
+      text-align: center;
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(18px, 3vw, 28px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .tagline-strip em {
+      font-style: normal;
+      color: var(--cyan);
+    }
+
+    /* FEATURES */
+    .section {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 64px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 36px;
+      border: 1px solid rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+    }
+
+    .feature-icon {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin-bottom: 24px;
+    }
+
+    .feature-icon.cyan { background: rgba(0,188,212,0.12); }
+    .feature-icon.purple { background: rgba(156,39,176,0.12); }
+    .feature-icon.orange { background: rgba(255,152,0,0.12); }
+    .feature-icon.green { background: rgba(76,175,80,0.12); }
+
+    .feature-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .feature-desc {
+      font-size: 15px;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+
+    /* SCREENS SHOWCASE */
+    .showcase {
+      padding: 80px 48px;
+      background: var(--dark);
+      overflow: hidden;
+    }
+
+    .showcase-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .showcase-text { color: #fff; }
+
+    .showcase-text .section-label { color: rgba(255,255,255,0.4); }
+
+    .showcase-text .section-title {
+      color: #fff;
+      margin-bottom: 24px;
+    }
+
+    .showcase-text p {
+      color: rgba(255,255,255,0.6);
+      font-size: 17px;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .showcase-phones {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .showcase-phone {
+      width: 180px;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+    }
+
+    .showcase-phone:first-child { margin-top: 40px; }
+    .showcase-phone img { width: 100%; display: block; }
+
+    /* DIVISIONS */
+    .divisions {
+      padding: 100px 48px;
+      background: #fff;
+    }
+
+    .divisions-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .divisions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 12px;
+      margin-top: 48px;
+    }
+
+    .division-item {
+      background: var(--bg);
+      border-radius: 16px;
+      padding: 20px 12px;
+      text-align: center;
+      border: 1px solid rgba(0,0,0,0.06);
+      transition: transform 0.2s;
+    }
+
+    .division-item:hover { transform: translateY(-4px); }
+
+    .division-emoji { font-size: 32px; margin-bottom: 8px; }
+
+    .division-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .division-pts {
+      font-size: 12px;
+      color: var(--light);
+      margin-top: 4px;
+    }
+
+    /* SHARE SECTION */
+    .share-section {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .share-phone {
+      width: 280px;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.12);
+      margin: 0 auto;
+    }
+
+    .share-phone img { width: 100%; display: block; }
+
+    /* SUPPORT */
+    .support {
+      background: var(--bg);
+      border-top: 1px solid rgba(0,0,0,0.06);
+      padding: 100px 48px;
+    }
+
+    .support-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .support-inner .section-title { margin-bottom: 24px; }
+
+    .support-inner p {
+      color: var(--mid);
+      font-size: 17px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .support-inner a {
+      color: var(--cyan);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .support-inner a:hover { text-decoration: underline; }
+
+    .support-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 48px;
+      text-align: left;
+    }
+
+    .support-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .support-card h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .support-card p {
+      font-size: 14px;
+      color: var(--light);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* PRIVACY */
+    .privacy {
+      padding: 80px 48px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .privacy h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+
+    .privacy p {
+      color: var(--mid);
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.5);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: gap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    footer p { font-size: 13px; }
+
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .section { padding: 64px 24px; }
+      .showcase { padding: 64px 24px; }
+      .showcase-inner { grid-template-columns: 1fr; gap: 48px; }
+      .share-section { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px; }
+      .divisions { padding: 64px 24px; }
+      .support { padding: 64px 24px; }
+      .privacy { padding: 64px 24px; }
+      footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+      .phone-mockup { width: 150px; }
+      .phone-mockup.featured { width: 170px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Engrama</div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#divisions">Divisions</a></li>
+      <li><a href="#support">Support</a></li>
+      <li><a href="#privacy">Privacy</a></li>
+      <li><a href="#" class="nav-cta">Download</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge"><span>🧠</span> Now available on the App Store</div>
+    <h1>
+      Train your<br/>
+      <span class="accent-cyan">math</span>,
+      <span class="accent-purple">language</span><br/>
+      &amp; <span class="accent-orange">trivia</span> skills.
+    </h1>
+    <p class="hero-sub">
+      Engrama turns your screen time into brain time.
+      Three challenges, one timer, zero excuses.
+    </p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download on App Store
+      </a>
+      <a href="#features" class="btn-secondary">See how it works →</a>
+    </div>
+
+    <div class="screenshots">
+      <div class="phones-row">
+        <div class="phone-mockup">
+          <img src="screen_math.jpg" alt="Mental Math Challenge" />
+        </div>
+        <div class="phone-mockup featured">
+          <img src="screen_home.jpg" alt="Engrama Home" />
+        </div>
+        <div class="phone-mockup">
+          <img src="screen_word.jpg" alt="Word Challenge" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAGLINE -->
+  <div class="tagline-strip">
+    "4 hours a day on screens. <em>How many of those actually count?</em>"
+  </div>
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <p class="section-label reveal">What's inside</p>
+    <h2 class="section-title reveal">Three challenges.<br/>One goal.</h2>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon cyan">🧮</div>
+        <h3 class="feature-title">Mental Math</h3>
+        <p class="feature-desc">Addition, subtraction, multiplication, division — or all four at once. Race against the clock and beat your own score.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon purple">📝</div>
+        <h3 class="feature-title">Word Types</h3>
+        <p class="feature-desc">Is it a verb, noun, adjective, or adverb? 540+ Spanish words across 8 grammatical categories. Faster than you think.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon orange">🧠</div>
+        <h3 class="feature-title">Culture Trivia</h3>
+        <p class="feature-desc">420+ questions across Chemistry, Physics, Biology, Geography, History, Math, Spanish and Miscellaneous. Three options. One correct answer.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon green">🪐</div>
+        <h3 class="feature-title">Division System</h3>
+        <p class="feature-desc">Start at Plutón and climb to Sol. Every point you score counts toward your planetary division. The solar system is your leaderboard.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWCASE -->
+  <div class="showcase">
+    <div class="showcase-inner">
+      <div class="showcase-text reveal">
+        <p class="section-label">Analytics</p>
+        <h2 class="section-title">Track every<br/>session.</h2>
+        <p>See your history across all three game modes. Filter by Math, Language, or Trivia. Your best score, average, and total sessions — all in one place.</p>
+        <p>Share your result card directly to Instagram Stories, WhatsApp, or anywhere else. Challenge your friends.</p>
+      </div>
+      <div class="showcase-phones reveal">
+        <div class="showcase-phone">
+          <img src="screen_analytics.jpg" alt="Analytics screen" />
+        </div>
+        <div class="showcase-phone">
+          <img src="screen_share.png" alt="Share card" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIVISIONS -->
+  <section class="divisions" id="divisions">
+    <div class="divisions-inner">
+      <p class="section-label reveal">Progress system</p>
+      <h2 class="section-title reveal">Climb the<br/>solar system.</h2>
+      <div class="divisions-grid">
+        <div class="division-item reveal">
+          <div class="division-emoji">🪨</div>
+          <div class="division-name">Plutón</div>
+          <div class="division-pts">0 pts</div>
+        </div>
+        <div class="division-item reveal">
+          <div class="division-emoji">⚫</div>
+          <div class="division-name">Mercurio</div>
+          <div class="division-pts">100 pts</div>
+        </div>
+        <div class="division-item reveal">
+          <div class="division-emoji">🌕</div>
+          <div class="division-name">Venus</div>
+          <div class="division-pts">300 pts</div>
+        </div>
+        <div class="division-item reveal">
+          <div class="division-emoji">🌍</div>
+          <div class="division-name">Tierra</div>
+          <div class="division-pts">600 pts</div>
+        </div>
+        <div class="division-item reveal">
+          <div class="division-emoji">🔴</div>
+          <div class="division-name">Marte</div>
+          <div class="division-pts">1,000 pts</div>
+        </div>
+        <div class="division-item reveal">
+          <div class="division-emoji">🟠</div>
+          <div class="division-name">Júpiter</div>
+          <div class="division-pts">1,500 pts</div>
+        </div>
+        <div class="division-item reveal">
+          <div class="division-emoji">🪐</div>
+          <div class="division-name">Saturno</div>
+          <div class="division-pts">2,200 pts</div>
+        </div>
+        <div class="division-item reveal">
+          <div class="division-emoji">🔵</div>
+          <div class="division-name">Urano</div>
+          <div class="division-pts">3,000 pts</div>
+        </div>
+        <div class="division-item reveal">
+          <div class="division-emoji">💙</div>
+          <div class="division-name">Neptuno</div>
+          <div class="division-pts">4,000 pts</div>
+        </div>
+        <div class="division-item reveal">
+          <div class="division-emoji">🌙</div>
+          <div class="division-name">Luna</div>
+          <div class="division-pts">5,500 pts</div>
+        </div>
+        <div class="division-item reveal">
+          <div class="division-emoji">☀️</div>
+          <div class="division-name">Sol</div>
+          <div class="division-pts">7,500 pts</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHARE -->
+  <section class="share-section">
+    <div class="reveal">
+      <p class="section-label">Share</p>
+      <h2 class="section-title">Beat me<br/>if you can.</h2>
+      <p style="color:var(--mid); font-size:17px; line-height:1.7; margin-bottom:24px;">
+        Every session generates a shareable result card with your score, your planetary division, and a challenge. Send it to a friend. Let the competition begin.
+      </p>
+    </div>
+    <div class="share-phone reveal">
+      <img src="screen_share.png" alt="Share result card" />
+    </div>
+  </section>
+
+  <!-- SUPPORT -->
+  <section class="support" id="support">
+    <div class="support-inner">
+      <p class="section-label">Support</p>
+      <h2 class="section-title">Need help?</h2>
+      <p>Engrama is built and maintained by a solo developer. If you have any questions, suggestions, or bugs to report, reach out directly.</p>
+      <p>Email: <a href="mailto:support@engrama.app">support@engrama.app</a></p>
+      <div class="support-cards">
+        <div class="support-card reveal">
+          <h4>🐛 Found a bug?</h4>
+          <p>Send us a description and your iOS version and we'll fix it in the next update.</p>
+        </div>
+        <div class="support-card reveal">
+          <h4>💡 Feature request?</h4>
+          <p>We love hearing ideas from users. Drop us a message anytime.</p>
+        </div>
+        <div class="support-card reveal">
+          <h4>⭐ Enjoying Engrama?</h4>
+          <p>Leave a review on the App Store — it helps more than you know.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY -->
+  <section class="privacy" id="privacy">
+    <h2>Privacy Policy</h2>
+    <p><strong>Last updated:</strong> April 2026</p>
+    <p>Engrama does not collect, store, or share any personal data. All game sessions and settings are stored locally on your device using iOS UserDefaults.</p>
+    <p>We do not use third-party analytics, advertising SDKs, or tracking tools of any kind.</p>
+    <p>The app does not require an account, login, or any personal information to function.</p>
+    <p>If you contact us for support, any information you provide (such as your email) will be used solely to respond to your inquiry and will never be shared.</p>
+    <p>If you have any questions about this policy, contact us at <a href="mailto:support@engrama.app" style="color:var(--cyan);">support@engrama.app</a>.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Engrama</div>
+    <p>© 2026 Manuel Marín. All rights reserved.</p>
+    <p><a href="#privacy">Privacy Policy</a> · <a href="#support">Support</a></p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

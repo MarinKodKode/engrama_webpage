@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support — Engrama</title>
+  <meta name="description" content="Get help with Engrama. Report bugs, request features, or just say hi." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cyan: #00BCD4;
+      --purple: #9C27B0;
+      --orange: #FF9800;
+      --bg: #f9f9f7;
+      --dark: #0d0d0d;
+      --mid: #444;
+      --light: #888;
+      --card: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Fredoka', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(249,249,247,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav-logo {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--mid);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 10px 20px;
+      border-radius: 100px;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .nav-back:hover { border-color: var(--dark); color: var(--dark); }
+
+    /* HERO */
+    .page-hero {
+      padding: 160px 48px 80px;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .page-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,188,212,0.08);
+      border: 1px solid rgba(0,188,212,0.15);
+      color: var(--cyan);
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 32px;
+    }
+
+    .page-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+
+    .page-subtitle {
+      font-size: 18px;
+      color: var(--mid);
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    /* CONTENT */
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 48px 100px;
+    }
+
+    /* CONTACT CARD */
+    .contact-card {
+      background: var(--dark);
+      border-radius: 24px;
+      padding: 48px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .contact-card .emoji {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .contact-card h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .contact-card p {
+      color: rgba(255,255,255,0.55);
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--cyan);
+      color: #fff;
+      text-decoration: none;
+      padding: 16px 32px;
+      border-radius: 100px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'Fredoka', sans-serif;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .contact-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .contact-email {
+      display: block;
+      margin-top: 16px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* SUPPORT CARDS GRID */
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .support-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 32px;
+      border: 1px solid rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .support-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+
+    .support-card .card-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .support-card h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .support-card p {
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+
+    /* FAQ */
+    .faq-section {
+      background: var(--card);
+      border-radius: 20px;
+      border: 1px solid rgba(0,0,0,0.06);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .faq-header {
+      padding: 32px 36px 16px;
+    }
+
+    .faq-header h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .faq-item {
+      padding: 20px 36px;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .faq-item:hover { background: var(--bg); }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .faq-question h4 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .faq-toggle {
+      font-size: 20px;
+      color: var(--light);
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .faq-item.open .faq-toggle { transform: rotate(45deg); color: var(--cyan); }
+
+    .faq-answer {
+      display: none;
+      padding-top: 12px;
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    .faq-item.open .faq-answer { display: block; }
+
+    /* GITHUB */
+    .github-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 32px 36px;
+      border: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      text-decoration: none;
+      color: var(--dark);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 24px;
+    }
+
+    .github-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+
+    .github-icon {
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+    }
+
+    .github-text h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .github-text p {
+      font-size: 14px;
+      color: var(--mid);
+    }
+
+    .github-arrow {
+      margin-left: auto;
+      font-size: 20px;
+      color: var(--light);
+      flex-shrink: 0;
+    }
+
+    /* RESPONSE TIME */
+    .response-banner {
+      background: rgba(0,188,212,0.06);
+      border: 1px solid rgba(0,188,212,0.15);
+      border-radius: 16px;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 48px;
+    }
+
+    .response-banner span { font-size: 24px; }
+
+    .response-banner p {
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.5;
+    }
+
+    .response-banner strong { color: var(--dark); }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.5);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    footer p { font-size: 13px; }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .page-hero { padding: 120px 24px 48px; }
+      .content { padding: 0 24px 64px; }
+      .contact-card { padding: 32px 24px; }
+      .faq-item { padding: 20px 24px; }
+      .faq-header { padding: 24px 24px 12px; }
+      .github-card { padding: 24px; }
+      footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Engrama</a>
+    <a href="index.html" class="nav-back">← Back to home</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="page-badge">💬 We're here to help</div>
+    <h1 class="page-title">Support</h1>
+    <p class="page-subtitle">
+      Built by one developer who actually reads every email.
+      Whatever you need — we've got you.
+    </p>
+  </div>
+
+  <div class="content">
+
+    <!-- RESPONSE TIME -->
+    <div class="response-banner">
+      <span>⚡</span>
+      <p><strong>Typical response time: 24–48 hours.</strong> We read every message and respond personally — no bots, no templates.</p>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="contact-card">
+      <div class="emoji">✉️</div>
+      <h2>Send us a message</h2>
+      <p>For bugs, feature requests, or anything else — email is the fastest way to reach us. Include your iOS version and a brief description and we'll get back to you.</p>
+      <a href="mailto:marinkodkode.support@gmail.com" class="contact-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Email Support
+      </a>
+      <span class="contact-email">marinkodkode.support@gmail.com</span>
+    </div>
+
+    <!-- CARDS -->
+    <div class="support-grid">
+      <div class="support-card">
+        <div class="card-icon">🐛</div>
+        <h3>Found a bug?</h3>
+        <p>Tell us what happened, what you expected, and your iOS version. Screenshots help a lot. We fix critical bugs in the next update.</p>
+      </div>
+      <div class="support-card">
+        <div class="card-icon">💡</div>
+        <h3>Feature request?</h3>
+        <p>Have an idea for a new challenge, category, or improvement? We genuinely want to hear it. Most of our best features came from user feedback.</p>
+      </div>
+      <div class="support-card">
+        <div class="card-icon">⭐</div>
+        <h3>Loving Engrama?</h3>
+        <p>Leave a review on the App Store — it's the single best way to help us grow and keep the app free. Takes 30 seconds and means everything.</p>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+      <div class="faq-header">
+        <h2>Frequently Asked Questions</h2>
+      </div>
+
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-question">
+          <h4>Is Engrama free?</h4>
+          <span class="faq-toggle">+</span>
+        </div>
+        <p class="faq-answer">Yes, Engrama is completely free to download and play. There are no in-app purchases, subscriptions, or ads.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-question">
+          <h4>Does Engrama work offline?</h4>
+          <span class="faq-toggle">+</span>
+        </div>
+        <p class="faq-answer">Yes, 100%. Engrama works entirely offline. No internet connection is needed to play any of the three challenges.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-question">
+          <h4>My progress disappeared. What happened?</h4>
+          <span class="faq-toggle">+</span>
+        </div>
+        <p class="faq-answer">All data is stored locally on your device. If you deleted and reinstalled the app, your data was removed along with it. Unfortunately this cannot be recovered yet — cloud backup is planned for a future update.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-question">
+          <h4>How do I move up in Division?</h4>
+          <span class="faq-toggle">+</span>
+        </div>
+        <p class="faq-answer">Your Division is based on your total accumulated points across all three game modes — Math, Language, and Trivia. Every point from every session counts. Keep playing and you'll automatically climb from Plutón all the way to Sol.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-question">
+          <h4>Is Engrama available on Android?</h4>
+          <span class="faq-toggle">+</span>
+        </div>
+        <p class="faq-answer">Not yet, but an Android version is currently in development. Follow us on GitHub to stay updated on the progress.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-question">
+          <h4>Can I use Engrama in my classroom?</h4>
+          <span class="faq-toggle">+</span>
+        </div>
+        <p class="faq-answer">Absolutely — Engrama was designed with students in mind. It's completely safe for children of all ages, requires no account, and collects zero personal data. Teachers love it for mental math and vocabulary practice.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggle(this)">
+        <div class="faq-question">
+          <h4>How do I share my results?</h4>
+          <span class="faq-toggle">+</span>
+        </div>
+        <p class="faq-answer">Go to your Analytics screen, tap on any session in your history, and press "Compartir resultado". A high-resolution card with your score and Division will be generated and you can share it to Instagram, WhatsApp, or any other app.</p>
+      </div>
+
+    </div>
+
+    <!-- GITHUB -->
+    <a href="https://github.com/MarinKodKode" target="_blank" class="github-card">
+      <svg class="github-icon" viewBox="0 0 24 24" fill="var(--dark)" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+      </svg>
+      <div class="github-text">
+        <h3>Follow development on GitHub</h3>
+        <p>@MarinKodKode — Android version in progress, iOS updates, and more.</p>
+      </div>
+      <span class="github-arrow">→</span>
+    </a>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Engrama</div>
+    <p>© 2026 Manuel Marín. All rights reserved.</p>
+    <p>
+      <a href="index.html">Home</a> ·
+      <a href="privacy.html">Privacy Policy</a> ·
+      <a href="support.html">Support</a>
+    </p>
+  </footer>
+
+  <script>
+    function toggle(el) {
+      el.classList.toggle('open');
+    }
+  </script>
+
+</body>
+</html>

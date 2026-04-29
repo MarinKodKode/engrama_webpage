@@ -27,7 +27,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Fredoka', sans-serif;
       background: var(--bg);
       color: var(--dark);
       overflow-x: hidden;
@@ -42,7 +42,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 20px 48px;
-      background: rgba(249,249,247,0.85);
+      background: rgba(249,249,247,0.92);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(0,0,0,0.06);
     }
@@ -50,7 +50,7 @@
     .nav-logo {
       font-family: 'Fredoka', sans-serif;
       font-size: 22px;
-      font-weight: 800;
+      font-weight: 700;
       background: linear-gradient(135deg, var(--cyan), var(--purple));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -61,6 +61,7 @@
       display: flex;
       gap: 32px;
       list-style: none;
+      align-items: center;
     }
 
     .nav-links a {
@@ -81,7 +82,79 @@
       font-weight: 500;
     }
 
-    .nav-cta:hover { background: var(--purple) !important; color: #fff !important; }
+    .nav-cta:hover { background: var(--purple) !important; }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      z-index: 101;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--dark);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* MOBILE NAV */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: 65px; left: 0; right: 0;
+      background: rgba(249,249,247,0.98);
+      backdrop-filter: blur(16px);
+      padding: 16px 24px 24px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      flex-direction: column;
+      z-index: 99;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    }
+
+    .nav-mobile.open { display: flex; }
+
+    .nav-mobile a {
+      text-decoration: none;
+      color: var(--dark);
+      font-size: 17px;
+      font-weight: 500;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      transition: color 0.2s;
+    }
+
+    .nav-mobile a:last-child { border-bottom: none; }
+    .nav-mobile a:hover { color: var(--cyan); }
+
+    .nav-mobile .mobile-cta {
+      margin-top: 8px;
+      background: var(--dark);
+      color: #fff !important;
+      text-align: center;
+      padding: 14px;
+      border-radius: 100px;
+      font-weight: 600;
+      border: none;
+    }
 
     /* HERO */
     .hero {
@@ -135,7 +208,7 @@
     h1 {
       font-family: 'Fredoka', sans-serif;
       font-size: clamp(52px, 8vw, 96px);
-      font-weight: 800;
+      font-weight: 700;
       line-height: 1.0;
       letter-spacing: -2px;
       margin-bottom: 24px;
@@ -152,7 +225,7 @@
       max-width: 560px;
       line-height: 1.6;
       margin-bottom: 48px;
-      font-weight: 300;
+      font-weight: 400;
       animation: fadeUp 0.6s 0.2s ease both;
     }
 
@@ -197,7 +270,7 @@
 
     .btn-secondary:hover { border-color: var(--dark); color: var(--dark); }
 
-    /* SCREENSHOTS CAROUSEL */
+    /* SCREENSHOTS */
     .screenshots {
       margin-top: 80px;
       animation: fadeUp 0.6s 0.4s ease both;
@@ -237,10 +310,7 @@
       letter-spacing: -0.5px;
     }
 
-    .tagline-strip em {
-      font-style: normal;
-      color: var(--cyan);
-    }
+    .tagline-strip em { font-style: normal; color: var(--cyan); }
 
     /* FEATURES */
     .section {
@@ -269,7 +339,7 @@
 
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 24px;
     }
 
@@ -296,10 +366,10 @@
       margin-bottom: 24px;
     }
 
-    .feature-icon.cyan { background: rgba(0,188,212,0.12); }
+    .feature-icon.cyan   { background: rgba(0,188,212,0.12); }
     .feature-icon.purple { background: rgba(156,39,176,0.12); }
     .feature-icon.orange { background: rgba(255,152,0,0.12); }
-    .feature-icon.green { background: rgba(76,175,80,0.12); }
+    .feature-icon.green  { background: rgba(76,175,80,0.12); }
 
     .feature-title {
       font-family: 'Fredoka', sans-serif;
@@ -308,13 +378,9 @@
       margin-bottom: 12px;
     }
 
-    .feature-desc {
-      font-size: 15px;
-      color: var(--mid);
-      line-height: 1.6;
-    }
+    .feature-desc { font-size: 15px; color: var(--mid); line-height: 1.6; }
 
-    /* SCREENS SHOWCASE */
+    /* SHOWCASE */
     .showcase {
       padding: 80px 48px;
       background: var(--dark);
@@ -331,20 +397,9 @@
     }
 
     .showcase-text { color: #fff; }
-
     .showcase-text .section-label { color: rgba(255,255,255,0.4); }
-
-    .showcase-text .section-title {
-      color: #fff;
-      margin-bottom: 24px;
-    }
-
-    .showcase-text p {
-      color: rgba(255,255,255,0.6);
-      font-size: 17px;
-      line-height: 1.7;
-      margin-bottom: 32px;
-    }
+    .showcase-text .section-title { color: #fff; margin-bottom: 24px; }
+    .showcase-text p { color: rgba(255,255,255,0.6); font-size: 17px; line-height: 1.7; margin-bottom: 32px; }
 
     .showcase-phones {
       display: flex;
@@ -364,15 +419,8 @@
     .showcase-phone img { width: 100%; display: block; }
 
     /* DIVISIONS */
-    .divisions {
-      padding: 100px 48px;
-      background: #fff;
-    }
-
-    .divisions-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    .divisions { padding: 100px 48px; background: #fff; }
+    .divisions-inner { max-width: 1200px; margin: 0 auto; }
 
     .divisions-grid {
       display: grid;
@@ -391,24 +439,11 @@
     }
 
     .division-item:hover { transform: translateY(-4px); }
-
     .division-emoji { font-size: 32px; margin-bottom: 8px; }
+    .division-name { font-size: 11px; font-weight: 600; color: var(--mid); text-transform: uppercase; letter-spacing: 0.5px; }
+    .division-pts { font-size: 12px; color: var(--light); margin-top: 4px; }
 
-    .division-name {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--mid);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .division-pts {
-      font-size: 12px;
-      color: var(--light);
-      margin-top: 4px;
-    }
-
-    /* SHARE SECTION */
+    /* SHARE */
     .share-section {
       padding: 100px 48px;
       max-width: 1200px;
@@ -436,27 +471,10 @@
       padding: 100px 48px;
     }
 
-    .support-inner {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
+    .support-inner { max-width: 800px; margin: 0 auto; text-align: center; }
     .support-inner .section-title { margin-bottom: 24px; }
-
-    .support-inner p {
-      color: var(--mid);
-      font-size: 17px;
-      line-height: 1.7;
-      margin-bottom: 16px;
-    }
-
-    .support-inner a {
-      color: var(--cyan);
-      text-decoration: none;
-      font-weight: 500;
-    }
-
+    .support-inner p { color: var(--mid); font-size: 17px; line-height: 1.7; margin-bottom: 16px; }
+    .support-inner a { color: var(--cyan); text-decoration: none; font-weight: 500; }
     .support-inner a:hover { text-decoration: underline; }
 
     .support-cards {
@@ -472,42 +490,40 @@
       border-radius: 16px;
       padding: 28px;
       border: 1px solid rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s; 
+      /*cursor: pointer;              */                  
+      text-decoration: none;                        
+      color: inherit;                                
+      display: block;                              
     }
 
-    .support-card h4 {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 8px;
+    .support-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
     }
 
-    .support-card p {
-      font-size: 14px;
-      color: var(--light);
-      margin: 0;
-      line-height: 1.5;
+
+    .support-card h4 { font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 8px;color: var(--dark); text-decoration: none;  }
+    .support-card p { font-size: 14px; color: var(--light); margin: 0; line-height: 1.5; text-decoration: none; }
+
+    .support-card * {
+      text-decoration: none;
+    }
+    .support-cards a.support-card,
+    .support-cards a.support-card h4,
+    .support-cards a.support-card p {
+      text-decoration: none !important;
+      color: var(--dark) !important;
+    }
+
+    .support-cards a.support-card p {
+      color: var(--light) !important;
     }
 
     /* PRIVACY */
-    .privacy {
-      padding: 80px 48px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .privacy h2 {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 24px;
-    }
-
-    .privacy p {
-      color: var(--mid);
-      font-size: 15px;
-      line-height: 1.7;
-      margin-bottom: 16px;
-    }
+    .privacy { padding: 80px 48px; max-width: 800px; margin: 0 auto; }
+    .privacy h2 { font-family: 'Fredoka', sans-serif; font-size: 28px; font-weight: 700; margin-bottom: 24px; }
+    .privacy p { color: var(--mid); font-size: 15px; line-height: 1.7; margin-bottom: 16px; }
 
     /* FOOTER */
     footer {
@@ -517,19 +533,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: gap;
       gap: 16px;
+      flex-wrap: wrap;
     }
 
-    .footer-logo {
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 800;
-      font-size: 18px;
-      color: #fff;
-    }
-
+    .footer-logo { font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 18px; color: #fff; }
     footer p { font-size: 13px; }
-
     footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
     footer a:hover { color: #fff; }
 
@@ -545,15 +554,14 @@
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
       nav { padding: 16px 24px; }
       .nav-links { display: none; }
+      .hamburger { display: flex; }
+
       .section { padding: 64px 24px; }
       .showcase { padding: 64px 24px; }
       .showcase-inner { grid-template-columns: 1fr; gap: 48px; }
@@ -562,8 +570,12 @@
       .support { padding: 64px 24px; }
       .privacy { padding: 64px 24px; }
       footer { padding: 32px 24px; flex-direction: column; text-align: center; }
-      .phone-mockup { width: 150px; }
-      .phone-mockup.featured { width: 170px; }
+      .phone-mockup { width: 140px; }
+      .phone-mockup.featured { width: 160px; }
+      .tagline-strip { padding: 24px 20px; }
+      .hero { padding: 100px 20px 60px; }
+      .hero-actions { flex-direction: column; width: 100%; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -579,7 +591,23 @@
       <li><a href="privacy.html">Privacy</a></li>
       <li><a href="#" class="nav-cta">Download</a></li>
     </ul>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="nav-mobile" id="navMobile">
+    <a href="#features" onclick="closeMenu()">Features</a>
+    <a href="#divisions" onclick="closeMenu()">Divisions</a>
+    <a href="support.html" onclick="closeMenu()">Support</a>
+    <a href="privacy.html" onclick="closeMenu()">Privacy</a>
+    <a href="#" class="mobile-cta" onclick="closeMenu()">
+      Download on App Store
+    </a>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -676,61 +704,17 @@
       <p class="section-label reveal">Progress system</p>
       <h2 class="section-title reveal">Climb the<br/>solar system.</h2>
       <div class="divisions-grid">
-        <div class="division-item reveal">
-          <div class="division-emoji">🪨</div>
-          <div class="division-name">Plutón</div>
-          <div class="division-pts">0 pts</div>
-        </div>
-        <div class="division-item reveal">
-          <div class="division-emoji">⚫</div>
-          <div class="division-name">Mercurio</div>
-          <div class="division-pts">100 pts</div>
-        </div>
-        <div class="division-item reveal">
-          <div class="division-emoji">🌕</div>
-          <div class="division-name">Venus</div>
-          <div class="division-pts">300 pts</div>
-        </div>
-        <div class="division-item reveal">
-          <div class="division-emoji">🌍</div>
-          <div class="division-name">Tierra</div>
-          <div class="division-pts">600 pts</div>
-        </div>
-        <div class="division-item reveal">
-          <div class="division-emoji">🔴</div>
-          <div class="division-name">Marte</div>
-          <div class="division-pts">1,000 pts</div>
-        </div>
-        <div class="division-item reveal">
-          <div class="division-emoji">🟠</div>
-          <div class="division-name">Júpiter</div>
-          <div class="division-pts">1,500 pts</div>
-        </div>
-        <div class="division-item reveal">
-          <div class="division-emoji">🪐</div>
-          <div class="division-name">Saturno</div>
-          <div class="division-pts">2,200 pts</div>
-        </div>
-        <div class="division-item reveal">
-          <div class="division-emoji">🔵</div>
-          <div class="division-name">Urano</div>
-          <div class="division-pts">3,000 pts</div>
-        </div>
-        <div class="division-item reveal">
-          <div class="division-emoji">💙</div>
-          <div class="division-name">Neptuno</div>
-          <div class="division-pts">4,000 pts</div>
-        </div>
-        <div class="division-item reveal">
-          <div class="division-emoji">🌙</div>
-          <div class="division-name">Luna</div>
-          <div class="division-pts">5,500 pts</div>
-        </div>
-        <div class="division-item reveal">
-          <div class="division-emoji">☀️</div>
-          <div class="division-name">Sol</div>
-          <div class="division-pts">7,500 pts</div>
-        </div>
+        <div class="division-item reveal"><div class="division-emoji">🪨</div><div class="division-name">Plutón</div><div class="division-pts">0 pts</div></div>
+        <div class="division-item reveal"><div class="division-emoji">⚫</div><div class="division-name">Mercurio</div><div class="division-pts">100 pts</div></div>
+        <div class="division-item reveal"><div class="division-emoji">🌕</div><div class="division-name">Venus</div><div class="division-pts">300 pts</div></div>
+        <div class="division-item reveal"><div class="division-emoji">🌍</div><div class="division-name">Tierra</div><div class="division-pts">600 pts</div></div>
+        <div class="division-item reveal"><div class="division-emoji">🔴</div><div class="division-name">Marte</div><div class="division-pts">1,000 pts</div></div>
+        <div class="division-item reveal"><div class="division-emoji">🟠</div><div class="division-name">Júpiter</div><div class="division-pts">1,500 pts</div></div>
+        <div class="division-item reveal"><div class="division-emoji">🪐</div><div class="division-name">Saturno</div><div class="division-pts">2,200 pts</div></div>
+        <div class="division-item reveal"><div class="division-emoji">🔵</div><div class="division-name">Urano</div><div class="division-pts">3,000 pts</div></div>
+        <div class="division-item reveal"><div class="division-emoji">💙</div><div class="division-name">Neptuno</div><div class="division-pts">4,000 pts</div></div>
+        <div class="division-item reveal"><div class="division-emoji">🌙</div><div class="division-name">Luna</div><div class="division-pts">5,500 pts</div></div>
+        <div class="division-item reveal"><div class="division-emoji">☀️</div><div class="division-name">Sol</div><div class="division-pts">7,500 pts</div></div>
       </div>
     </div>
   </section>
@@ -755,21 +739,21 @@
       <p class="section-label">Support</p>
       <h2 class="section-title">Need help?</h2>
       <p>Engrama is built and maintained by a solo developer. If you have any questions, suggestions, or bugs to report, reach out directly.</p>
-      <p>Email: <a href="mailto:kodkode.support@gmail.com">kodkode.support@gmail.com</a></p>
-      <div class="support-cards">
-        <div class="support-card reveal">
-          <h4>🐛 Found a bug?</h4>
-          <p>Send us a description and your iOS version and we'll fix it in the next update.</p>
-        </div>
-        <div class="support-card reveal">
-          <h4>💡 Feature request?</h4>
-          <p>We love hearing ideas from users. Drop us a message anytime.</p>
-        </div>
-        <div class="support-card reveal">
-          <h4>⭐ Enjoying Engrama?</h4>
-          <p>Leave a review on the App Store — it helps more than you know.</p>
-        </div>
-      </div>
+      <p>Email: <a href="mailto:marinkodkode.support@gmail.com">marinkodkode.support@gmail.com</a></p>
+     <div class="support-cards">
+      <a href="support.html" class="support-card reveal">
+        <h4>🐛 Found a bug?</h4>
+        <p>Send us a description and your iOS version and we'll fix it in the next update.</p>
+      </a>
+      <a href="support.html" class="support-card reveal">
+        <h4>💡 Feature request?</h4>
+        <p>We love hearing ideas from users. Drop us a message anytime.</p>
+      </a>
+      <a href="support.html" class="support-card reveal">
+        <h4>⭐ Enjoying Engrama?</h4>
+        <p>Leave a review on the App Store — it helps more than you know.</p>
+      </a>
+</div>
     </div>
   </section>
 
@@ -781,7 +765,7 @@
     <p>We do not use third-party analytics, advertising SDKs, or tracking tools of any kind.</p>
     <p>The app does not require an account, login, or any personal information to function.</p>
     <p>If you contact us for support, any information you provide (such as your email) will be used solely to respond to your inquiry and will never be shared.</p>
-    <p>If you have any questions about this policy, contact us at <a href="mailto:kodkode.support@gmail.com" style="color:var(--cyan);">kodkode.support@gmail.com</a>.</p>
+    <p>If you have any questions about this policy, contact us at <a href="mailto:marinkodkode.support@gmail.com" style="color:var(--cyan);">marinkodkode.support@gmail.com</a>.</p>
   </section>
 
   <!-- FOOTER -->
@@ -792,6 +776,23 @@
   </footer>
 
   <script>
+    function toggleMenu() {
+      const menu = document.getElementById('navMobile');
+      const burger = document.getElementById('hamburger');
+      menu.classList.toggle('open');
+      burger.classList.toggle('open');
+    }
+
+    function closeMenu() {
+      document.getElementById('navMobile').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    }
+
+    // Cerrar menú al hacer scroll
+    window.addEventListener('scroll', () => {
+      closeMenu();
+    });
+
     // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
